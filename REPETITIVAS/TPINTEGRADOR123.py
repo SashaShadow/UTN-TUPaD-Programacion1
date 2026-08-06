@@ -1,0 +1,258 @@
+# Ejercicio 1— “Caja del Kiosco”
+# Objetivo: Simular una compra con validaciones y cálculo de total.
+
+def caja_kiosco():
+    total_descuento = 0
+    total_sin_descuento = 0
+    ahorro_total = 0
+    productos_info = []
+
+    nombre_cliente = input("Ingrese nombre del cliente: \n")
+
+    if nombre_cliente == "":
+        print("El nombre del cliente no puede estar vacio\n")
+        nombre_cliente = input("Ingrese nombre del cliente: \n")
+
+    while not nombre_cliente.isalpha():
+        print("El nombre de cliente no puede tener numeros ni signos\n")
+        nombre_cliente = input("Ingrese nombre del cliente: \n")
+
+    cantidad = input("Ingrese la cantidad de productos a comprar: \n")
+
+    while not cantidad.isdigit() or int(cantidad) <= 0:
+        print("Se debe elegir una cantidad valida (numero entero mayor a 0)\n")
+        cantidad = input("Ingrese la cantidad de productos a comprar: \n")
+
+    for n in range(1, int(cantidad) + 1):
+        precio = input(f"Ingrese precio del producto {n}: \n")
+
+        while not precio.isdigit() or int(precio) <= 0:
+            precio = input(f"Ingrese un numero valido para el precio del producto {n}\n: ")
+
+        precio = int(precio)
+
+        tiene_descuento = input(f"¿El producto {n} tiene descuento? (Ingrese S para si, N para no)\n ")
+
+        while tiene_descuento.lower() != "s" and tiene_descuento.lower() != "n":
+            tiene_descuento = input(f"Por favor ingrese una opcion valida (S o N). \n ¿El producto {n} tiene descuento? (Ingrese S para si, N para no) ")
+
+        descuento = precio * 10 / 100 if tiene_descuento.lower() == "s" else 0
+        precio_con_descuento = precio - descuento
+
+        total_descuento += precio_con_descuento
+        total_sin_descuento += precio
+        ahorro_total += descuento
+
+        productos_info.append(f"Producto {n} - Precio: {precio} - Descuento (S/N): {tiene_descuento}")
+
+    promedio_descuento = ahorro_total / int(cantidad)
+
+    print(f"Cliente: {nombre_cliente}")
+    print(f"Cantidad de productos: {cantidad}\n")
+
+    for prod_msg in productos_info:
+        print(prod_msg)
+
+    print(f"Total sin descuentos: {total_sin_descuento}")
+    print(f"Total con descuentos: {total_descuento}")
+    print(f"Ahorro: {ahorro_total}")
+    print(f"Promedio por producto: {promedio_descuento}")
+
+
+# caja_kiosco()
+
+    
+# Ejercicio 2 — “Acceso al Campus y Menú Seguro”
+# Objetivo: Login con intentos + menú de acciones con validación estricta.
+
+def login_campus():
+    user = "root"
+    password = "supersecret123"
+
+    intentos = 0
+    MAX_INTENTOS = 3
+
+    while intentos < MAX_INTENTOS:
+        user_ingreso = input("Ingrese nombre usuario: \n")
+        pass_ingreso = input("Ingrese contraseña: \n")
+
+        intentos += 1
+
+        if user != user_ingreso or password != pass_ingreso:
+            if intentos == MAX_INTENTOS:
+                print("Cuenta bloqueada")
+                return 
+            print("Error: Usuario o contraseña invalidos.\n")
+            continue 
+
+        print("Acceso concedido\n")
+        break
+
+    opcion_elegida = 0
+
+    texto_opc = """
+        1. Ver estado de inscripción.
+        2. Cambiar clave.
+        3. Mostrar mensaje motivacional.
+        4. Salir.
+    """
+
+    while opcion_elegida != "4":
+        opcion_elegida = input(f"Ingrese una opcion: \n {texto_opc}")
+
+        while not opcion_elegida.isdigit() or int(opcion_elegida) < 1 or int(opcion_elegida) > 4:
+            print("Error: Por favor elegir una opcion valida")
+            opcion_elegida = input(f"Ingrese una opcion: \n {texto_opc}\n")
+
+        if opcion_elegida == "1":
+            print("Inscripto")
+        elif opcion_elegida == "2":
+            nueva_clave = input("Ingrese su nueva clave (minimo 6 caracteres de larga): \n")
+            confirmacion = input("Ingrese otra vez su nueva clave: \n")
+
+            if nueva_clave != confirmacion:
+                print("Error: Las contraseñas deben coincidir.\n")
+            else:
+                if len(nueva_clave) < 6:
+                    print("Error: La nueva contraseña debe tener al menos 6 caracteres.\n")
+                else:
+                    print("Contraseña cambiada correctamente. \n")
+
+
+        elif opcion_elegida == "3":
+            print("«El ayer es historia, el mañana es un misterio, el hoy es un regalo, por eso se llama presente»\n")
+
+
+# login_campus()       
+
+
+# Ejercicio 3 (Alta) — “Agenda de Turnos con
+# Nombres (sin listas)”
+
+def agenda_turnos():
+    agenda_lunes = """
+    Turno 1: #libre#
+    Turno 2: #libre#
+    Turno 3: #libre#
+    Turno 4: #libre#
+    """
+    agenda_martes = """
+    Turno 1: #libre#
+    Turno 2: #libre#
+    Turno 3: #libre#
+    """
+
+    nombre_operador = input("Ingrese nombre del operador (solo letras): \n")
+
+    while not nombre_operador.isalpha():
+        nombre_operador = input("Ingrese nombre del operador (solo letras): \n")
+
+    print(f"Bienvenido {nombre_operador}")
+
+    texto_opc = """
+    1. Reservar turno
+    2. Cancelar turno (por nombre)
+    3. Ver agenda del día
+    4. Ver resumen general
+    5. Cerrar sistema\n"""
+
+    opcion_elegida = ""
+
+    while opcion_elegida != "5":
+        opcion_elegida = input(f"Ingrese una opcion: \n {texto_opc}")
+
+        while not opcion_elegida.isdigit() or int(opcion_elegida) < 1 or int(opcion_elegida) > 5:
+            print("Error: Por favor elegir una opcion valida")
+            opcion_elegida = input(f"Ingrese una opcion: \n {texto_opc}\n")
+
+        if opcion_elegida == "1":
+            dia_elegido = input("Elegir día (1=Lunes, 2=Martes)\n")
+
+            while dia_elegido != "1" and dia_elegido != "2":
+                print("Error: Elegir 1 (lunes) o 2 (martes)\n")
+                dia_elegido = input("Elegir día (1=Lunes, 2=Martes)\n")
+
+            if dia_elegido == "1":
+                if "#libre#" not in agenda_lunes:
+                    print("No hay turnos disponibles el lunes")
+                    continue
+            else:
+                if "#libre#" not in agenda_martes:
+                    print("No hay turnos disponibles el martes")
+                    continue
+
+            nombre_paciente = input("Ingrese nombre del paciente (solo letras): \n")
+            
+            while not nombre_paciente.isalpha():
+                nombre_paciente = input("Ingrese nombre del paciente (solo letras): \n")
+
+            agenda_dia = agenda_lunes if dia_elegido == "1" else agenda_martes
+            nombre_dia = "lunes" if dia_elegido == "1" else "martes"
+
+            while f"!#{nombre_paciente}#!" in agenda_dia:
+                print(f"El paciente ya esta agendado para el dia {nombre_dia}")
+                nombre_paciente = input("Ingrese nombre de otro paciente (solo letras): \n")
+
+                while not nombre_paciente.isalpha():
+                    nombre_paciente = input("Ingrese nombre del paciente (solo letras): \n")
+
+            if dia_elegido == "1":
+                agenda_lunes = agenda_lunes.replace("#libre#", f"!#{nombre_paciente}#!", 1)
+            else:
+                agenda_martes = agenda_martes.replace("#libre#", f"!#{nombre_paciente}#!", 1)
+        elif opcion_elegida == "2":
+            dia_elegido = input("Elegir día (1=Lunes, 2=Martes)\n")
+
+            while dia_elegido != "1" and dia_elegido != "2":
+                print("Error: Elegir 1 (lunes) o 2 (martes)\n")
+                dia_elegido = input("Elegir día (1=Lunes, 2=Martes)\n")
+
+            nombre_paciente = input("Ingrese nombre del paciente (solo letras): \n")
+                        
+            while not nombre_paciente.isalpha():
+                nombre_paciente = input("Ingrese nombre del paciente (solo letras): \n")
+
+            agenda_dia = agenda_lunes if dia_elegido == "1" else agenda_martes
+
+            if f"!#{nombre_paciente}#!" in agenda_dia:
+                if dia_elegido == "1":
+                    agenda_lunes = agenda_lunes.replace(f"!#{nombre_paciente}#!", "#libre#", 1)
+                else:
+                    agenda_martes = agenda_martes.replace(f"!#{nombre_paciente}#!", "#libre#", 1)
+            else:
+                print("El paciente no tenia turno para el dia elegido\n")
+        elif opcion_elegida == "3":
+            dia_elegido = input("Elegir día (1=Lunes, 2=Martes)\n")
+            
+            while dia_elegido != "1" and dia_elegido != "2":
+                print("Error: Elegir 1 (lunes) o 2 (martes)\n")
+                dia_elegido = input("Elegir día (1=Lunes, 2=Martes)\n")
+
+            agenda_dia = agenda_lunes if dia_elegido == "1" else agenda_martes
+
+            agenda_formateada = agenda_dia.replace("!#", "")
+            agenda_formateada = agenda_formateada.replace("#!", "")
+            agenda_formateada = agenda_formateada.replace("#libre#", "libre")
+
+            print(agenda_formateada)
+        elif opcion_elegida == "4":
+            libres_lunes = agenda_lunes.count("#libre#")
+            libres_martes = agenda_martes.count("#libre#")
+
+            print(f"Turnos libres en la agenda del lunes: {libres_lunes}")
+            print(f"Turnos ocupados en la agenda del lunes: {4 - libres_lunes}\n")
+
+            print(f"Turnos libres en la agenda del martes: {libres_martes}")
+            print(f"Turnos ocupados en la agenda del martes: {3 - libres_martes}\n")
+
+            dia_mas_turnos = "lunes" if (4 - libres_lunes) > (3 - libres_martes) else "martes" if (4 - libres_lunes) < (3 - libres_martes) else "empate entre ambos dias"
+
+            print(f"Dia con mas turnos ocupados: {dia_mas_turnos}")
+
+# agenda_turnos()
+            
+            
+# Ejercicio 4 — “Escape Room: La Bóveda”
+
+
+
