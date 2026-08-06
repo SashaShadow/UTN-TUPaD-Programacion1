@@ -254,5 +254,147 @@ def agenda_turnos():
             
 # Ejercicio 4 — “Escape Room: La Bóveda”
 
+def la_boveda():
+    energia = 100
+    tiempo = 12
+    cerraduras_abiertas = 0
+    alarma = False
+    codigo_parcial = ""
+
+    ultima_eleccion = None
+    contador_forzado_cerradura = 0
+
+    nombre_agente = input("Ingrese nombre del agente (solo letras): \n")
+
+    while not nombre_agente.isalpha():
+        nombre_agente = input("Ingrese nombre del agente (solo letras): \n")
+
+    print(f"Bienvenido {nombre_agente}")
+
+    texto_menu = """
+    1. Forzar cerradura
+    2. Hackear panel
+    3. Descansar\n"""
+
+    while energia > 0 and tiempo > 0 and cerraduras_abiertas < 3:
+
+        bloqueo_alarma = alarma and tiempo <= 3
+
+        if bloqueo_alarma:
+            print("Perdiste! Razon: Se bloqueó la alarma")
+            return  
+
+        estado_descripcion = f"""
+        Tiempo restante: {tiempo}
+        Energia restante: {energia}
+        Cerraduras abiertas: {cerraduras_abiertas}
+        Alarma: {"sonando" if alarma else "apagada"}\n
+        """
+        print(estado_descripcion)
+
+        opcion_elegida = input(f"Ingrese una opcion: \n {texto_menu}")
+
+        while not opcion_elegida.isdigit() or int(opcion_elegida) < 1 or int(opcion_elegida) > 3:
+            print("Error: Por favor elegir una opcion valida")
+            opcion_elegida = input(f"Ingrese una opcion: \n {texto_menu}\n")
+
+        if opcion_elegida == "1":
+            print("Forzando...\n")
+
+            energia -= 20
+            tiempo -= 2
+
+            if (ultima_eleccion == "1" or ultima_eleccion is None) and contador_forzado_cerradura < 3:
+                contador_forzado_cerradura += 1
+
+            if contador_forzado_cerradura == 3 and not alarma:
+                alarma = True  
+                print("Se encendio la alarma al trabarse la cerradura!")
+                continue
+
+            if not alarma:
+                if energia < 40:
+                    print("Riesgo de alarma...\n")
+                    num_elegido = input(f"Ingrese 1, 2 o 3:\n")
+                    
+                    while not num_elegido.isdigit() or int(num_elegido) < 1 or int(num_elegido) > 3:
+                        print("Error: Por favor elegir una opcion valida\n")
+                        num_elegido = input(f"Ingrese una opcion (1, 2 o 3):\n")
+
+                    if num_elegido == "3":
+                        print("Se ha encendido la alarma!\n")
+                        alarma = True 
+
+                if cerraduras_abiertas < 3 and not alarma:
+                    print("Muy bien, abriste una cerradura!\n")
+                    cerraduras_abiertas += 1
+            else:
+                print("La cerradura esta bloqueada! No se puede abrir")
+                continue
+
+            ultima_eleccion = opcion_elegida 
+
+        elif opcion_elegida == "2":
+            energia -= 10
+            tiempo -= 3
+
+            contador_forzado_cerradura = 0 
+
+            for n in range(4):
+                print(f"Paso numero {n}")
+
+                letra = input("Ingrese una letra: \n")
+
+                if letra == "":
+                    print("Lo ingresado no puede estar vacio\n")
+                    letra = input("Ingrese una letra: \n")
+
+                if len(letra) != 1:
+                    print("SOLO ingrese una letra, no mas\n")
+                    letra = input("Ingrese una letra: \n")
+
+                while not letra.isalpha():
+                    print("Lo ingresado no es una letra\n")
+                    letra = input("Ingrese una letra: \n")
+
+                codigo_parcial += letra 
+
+                print(f"Codigo parcial: {codigo_parcial}")
+            
+            if len(codigo_parcial) >= 8:
+                if cerraduras_abiertas < 3:
+                    print("Muy bien, abriste una cerradura!\n")
+                    cerraduras_abiertas += 1
+
+            ultima_eleccion = opcion_elegida 
+
+        else:
+            print("Descansando...")
+
+            contador_forzado_cerradura = 0 
+            energia += 15
+            energia = energia if energia < 100 else 100 
+
+            tiempo -= 1
+
+            if alarma:
+                energia -= 10
+
+            ultima_eleccion = opcion_elegida 
+
+    if cerraduras_abiertas == 3:
+        print("Victoria! Has logrado abrir todas las cerraduras y escapar. Felicitaciones.")
+        return
+    elif energia <= 0 or tiempo <= 0:
+        razon_derrota = "Te quedaste sin tiempo." if tiempo <= 0 else "Te quedaste sin energia."
+        print(f"Perdiste! Razon: {razon_derrota}")
+        return
+
+la_boveda()
+
+
+
+
+
 
 
