@@ -58,9 +58,6 @@ def caja_kiosco():
     print(f"Ahorro: {ahorro_total}")
     print(f"Promedio por producto: {promedio_descuento}")
 
-
-# caja_kiosco()
-
     
 # Ejercicio 2 — “Acceso al Campus y Menú Seguro”
 # Objetivo: Login con intentos + menú de acciones con validación estricta.
@@ -128,6 +125,11 @@ def login_campus():
 
 # Ejercicio 3 (Alta) — “Agenda de Turnos con
 # Nombres (sin listas)”
+# Comentario:
+# Aca me imagino que ustedes querian que nosotros declaremos y usemos una variable por turno de cada dia.
+# Inicialmente se me ocurrio asi como lo hice a continuacion usando replace para quitar los placeholders #libre#,
+# aprovechando que la persona no puede ingresar simbolos. Los replace tambien se hace siempre con simbolos para evitar
+# que la persona escriba "libre" como nombre.
 
 def agenda_turnos():
     agenda_lunes = """
@@ -249,7 +251,6 @@ def agenda_turnos():
 
             print(f"Dia con mas turnos ocupados: {dia_mas_turnos}")
 
-# agenda_turnos()
             
             
 # Ejercicio 4 — “Escape Room: La Bóveda”
@@ -390,7 +391,96 @@ def la_boveda():
         print(f"Perdiste! Razon: {razon_derrota}")
         return
 
-la_boveda()
+# Ejercicio 5 — “Escape Room:"La Arena del Gladiador"
+
+def arena_gladiador():
+    print("--- BIENVENIDO A LA ARENA ---")
+    nombre_jugador = input("Ingrese nombre del jugador (solo letras, no numeros ni simbolos): \n")
+    
+    while not nombre_jugador.isalpha():
+        nombre_jugador = input("Ingrese nombre del jugador (solo letras, sin simbolos ni numeros): \n")
+
+    hp_jugador = 100
+    hp_enemigo = 100
+    pociones_vida = 3
+    daño_atk_pesado = 15
+    daño_enemigo = 12
+    turno_gladiador = True
+
+    print("=== INICIO DEL COMBATE ===")
+
+    while hp_jugador > 0 and hp_enemigo > 0:
+
+        if turno_gladiador:
+            estado_vida = f"""
+            HP {nombre_jugador} (¡vos!): {hp_jugador}
+            HP Enemigo: {hp_enemigo}\n
+
+            Pociones restantes: {pociones_vida}
+            """
+
+            print(estado_vida)
+
+            opciones = """
+            Elegi una de las siguientes opciones (1, 2 o 3):\n
+            1. Ataque pesado.
+            2. Ráfaga Veloz.
+            3. Curar.\n
+            """
+
+            opc_elegida = input(opciones)
+                                
+            while not opc_elegida.isdigit() or int(opc_elegida) < 1 or int(opc_elegida) > 3:
+                print("Error: Por favor elegir una opcion valida\n")
+                opc_elegida = input(opciones)
+
+            if opc_elegida == "1":
+                daño_final = daño_atk_pesado * 1.5 if hp_enemigo < 20 else daño_atk_pesado
+
+                hp_enemigo -= daño_final 
+
+                print(f"¡Atacaste al enemigo por {daño_final} puntos de daño!\n") 
+            elif opc_elegida == "2":
+                for _ in range(3):
+                    hp_enemigo -= 5
+
+                    print("> Golpe conectado por 5 de daño")
+            elif opc_elegida == "3":
+                if pociones_vida:
+                    print("Curandose...\n")
+                    hp_jugador += 30
+                    pociones_vida -= 1
+                else:
+                    print("¡No quedan pociones!\n")
+
+            turno_gladiador = False
+        else:
+            hp_jugador -= daño_enemigo
+            print("¡El enemigo te atacó por 12 puntos de daño!\n")
+
+            turno_gladiador = True
+
+    if hp_jugador > 0:
+        print(f"¡VICTORIA! {nombre_jugador} ha ganado la batalla.")
+    else:
+        print("DERROTA. Has caído en combate.")
+
+
+#Elegir aca que funcion ejecutar:
+#################################
+
+# caja_kiosco()
+# agenda_turnos()
+# la_boveda()
+# arena_gladiador()
+
+
+            
+            
+
+
+
+
 
 
 
