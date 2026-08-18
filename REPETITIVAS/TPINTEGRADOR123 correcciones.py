@@ -305,6 +305,9 @@ def la_boveda():
             energia -= 20
             tiempo -= 2
 
+            if (ultima_eleccion == "1" or ultima_eleccion is None) and contador_forzado_cerradura < 3:
+                contador_forzado_cerradura += 1
+
             if ultima_eleccion == "1" and contador_forzado_cerradura < 3:
                 contador_forzado_cerradura += 1
             else:
