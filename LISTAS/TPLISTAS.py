@@ -247,4 +247,86 @@ def notas_materias():
 # ●​ Mostrar el tablero después de cada jugada.
 
 def tateti():
+    tablero = [["-", "-", "-"],
+               ["-", "-", "-"],
+               ["-", "-", "-"]]
+    
+    turno = True
+
+    fin = False
+
+    # Para filas diferentes (vertical y diagonal):
+    marcas_ganadoras = [["0,0", "1,1", "2,2"],["0,0","1,0","2,0"],
+                        ["0,1", "1,1", "2,1"], ["0,2", "1,2", "2,2"],
+                        ["0,2", "1,1", "2,0"]]
+
+    marcas_X = []
+
+    marcas_O = []
+
+    while "-" in tablero[0] or "-" in tablero[1] or "-" in tablero[2]:
+
+        print(f"Marcas X: {marcas_X}\n")
+        print(f"Marcas O: {marcas_O}\n")
+
+        nombre_jugador = "1" if turno else "2"
+        marca_jugador = "X" if turno else "O"
+        marca_jugador_opuesto = "O" if turno else "X"
+
+        for f in tablero:
+            # Valido si alguien gano horizontalmente
+            if marca_jugador not in f and "-" not in f:
+                fin = True
+            
+            print(f)
+
+        for m in marcas_ganadoras:
+            if sorted(marcas_O) == sorted(m) or sorted(marcas_X) == sorted(m):
+                fin = True
+
+        if fin:
+            print(f"Juego terminado. Se realizo una linea de {marca_jugador_opuesto}/s")
+            return
+
+        valor_encontrado = 0
+
+        while valor_encontrado != "-":
+            fila = input(f"Jugador {nombre_jugador} elija fila para marcar {marca_jugador}, (opciones posibles: 1, 2 o 3):\n")
+            
+            while fila not in ["1", "2", "3"]:
+                fila = input(f"Jugador {nombre_jugador} elija fila correcta para marcar {marca_jugador}, (opciones posibles: 1, 2 o 3):\n")
+    
+            columna = input(f"Jugador {nombre_jugador} elija columna para marcar {marca_jugador}, (opciones posibles: 1, 2 o 3):\n")
+    
+            while columna not in ["1", "2", "3"]:
+                columna = input(f"Jugador {nombre_jugador} elija columna correcta para marcar {marca_jugador}, (opciones posibles: 1, 2 o 3):\n")
+                    
+            valor_encontrado = tablero[int(fila) - 1][int(columna) - 1]
+
+            if valor_encontrado != "-":
+                print(f"En esa posicion ya hay un {valor_encontrado} marcado. Elija otra posicion. \n")
+            else:
+                tablero[int(fila) - 1][int(columna) - 1] = marca_jugador
+
+                if marca_jugador == "X":
+                    marcas_X.append(f"{int(fila) - 1},{int(columna) - 1}")
+                else:
+                    marcas_O.append(f"{int(fila) - 1},{int(columna) - 1}")
+
+                valor_encontrado = "-"
+                turno = not turno
+
+    for f in tablero:
+        print(f)
+    print("¡Empate!\n")
+
+tateti()
+
+        
+
+        
+        
+
+
+
     
