@@ -80,7 +80,6 @@ def lista_pimp():
     nums = [14, 22, 63, 1, 7, 8, 9, 16, 27, 43, 56, 77, 81, 99, 73]
     #sino seria:
     #nums = [random.randint(1, 100) for n in range(15)]
-    print(nums)
 
     pares = []
     impares = []
@@ -395,7 +394,72 @@ def tienda():
 
 # tienda() 
         
+# 11)​Crear una lista con los nombres de 10 estudiantes.
+# ●​ Solicitar al usuario que ingrese un nombre a buscar.
+# ●​ Indicar si el nombre se encuentra en la lista.
+# ●​ Mostrar la posición en la que aparece.
+# ●​ Si no se encuentra, informar que no está en la lista.
 
+def ten_students():
 
+    estudiantes = ["Mauricio", "Sergio", "Kevin", "Florencia", "Evelin", 
+                   "Cristian", "Paris", "Francisco", "Nataniel", "Andrea"]
 
+    nombre = input("Por favor ingrese un nombre para ver si esta en la lista de estudiantes:\n")
+
+    if nombre in estudiantes:
+        print("El nombre esta en la lista\n")
+        posicion = estudiantes.index(nombre) 
+
+        print(f"El nombre ingresado esta en la posicion {posicion + 1} de la lista")
+    else:
+        print("El nombre ingresado no esta en la lista\n")
+
+# ten_students()
+
+# 12)​Pedir al usuario que ingrese 8 números enteros y almacenarlos en una lista.
+# ●​ Mostrar la lista original.
+# ●​ Mostrar la lista ordenada de menor a mayor.
+# ●​ Mostrar la lista ordenada de mayor a menor.
+# ●​ Investigar el uso de sorted() y del parámetro reverse.
     
+def num_enteros():
+    numeros = []
+
+    print("A continuacion debera ingresar 8 numeros enteros: \n")
+
+    for i in range(8):
+        n = input(f"Ingrese el numero en posicion {i + 1}:")
+
+        while not n.isdigit():
+            print("Lo ingresado no es numero.\n")
+            n = input(f"Ingrese un numero entero valido:")
+
+        numeros.append(int(n))
+
+    print(f"Lista original de numeros: {numeros}")
+
+    ordenados = sorted(numeros)
+    ordenados_mayor_a_menor = sorted(numeros, reverse=True)
+
+    print(f"Lista ordenada de menor a mayor: {ordenados}\n")
+
+    print(f"Lista ordenada de mayor a menor: {ordenados_mayor_a_menor}")
+
+# num_enteros()
+
+# 13)​Dada la siguiente lista de puntajes de un videojuego:
+# puntajes = [450, 1200, 875, 990, 300, 1500, 640]
+# ●​ Mostrar el puntaje más alto y el más bajo.
+# ●​ Mostrar la lista ordenada de mayor a menor (ranking).
+# ●​ Indicar en qué posición del ranking se encuentra el puntaje 990.
+
+def lpuntajes():
+    puntajes = [450, 1200, 875, 990, 300, 1500, 640]
+
+    print(f"Puntaje mas alto: {max(puntajes)}\n")   
+    print(f"Puntaje mas bajo: {min(puntajes)}\n")
+
+    print(f"El puntaje 990 esta en la posicion {puntajes.index(990) + 1} del ranking")
+
+# lpuntajes()
