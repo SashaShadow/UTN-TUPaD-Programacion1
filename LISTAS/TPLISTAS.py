@@ -246,6 +246,29 @@ def notas_materias():
 # ●​ Permitir que dos jugadores ingresen posiciones (fila, columna) para colocar "X" o "O".
 # ●​ Mostrar el tablero después de cada jugada.
 
+# Quizas la consigna no pedia algo asi pero creo que la cumple y supera llegando a ser el juego completo
+def aux_tateti(marcas_ganadoras, marcas_X, marcas_O):
+    marca_ganadora = None
+
+    for marca in marcas_ganadoras:
+        tiene_todas_x = 0
+        tiene_todas_o = 0
+        for posicion in marca:
+            if posicion in marcas_X:
+                tiene_todas_x += 1
+            if posicion in marcas_O:
+                tiene_todas_o += 1
+
+        if tiene_todas_o == 3 or tiene_todas_x == 3:
+            marca_ganadora = "X" if tiene_todas_x == 3 else "O"
+            break
+
+    if marca_ganadora:
+        print(f"Juego terminado. Se realizo una linea de {marca_ganadora}/s")
+        return True
+
+    return False
+
 def tateti():
     tablero = [["-", "-", "-"],
                ["-", "-", "-"],
@@ -253,12 +276,10 @@ def tateti():
     
     turno = True
 
-    fin = False
-
-    # Para filas diferentes (vertical y diagonal):
     marcas_ganadoras = [["0,0", "1,1", "2,2"],["0,0","1,0","2,0"],
                         ["0,1", "1,1", "2,1"], ["0,2", "1,2", "2,2"],
-                        ["0,2", "1,1", "2,0"]]
+                        ["0,2", "1,1", "2,0"], ["0,0", "0,1", "0,2"],
+                        ["1,0", "1,1", "1,2"],["2,0", "2,1", "2,2"]]
 
     marcas_X = []
 
@@ -271,21 +292,13 @@ def tateti():
 
         nombre_jugador = "1" if turno else "2"
         marca_jugador = "X" if turno else "O"
-        marca_jugador_opuesto = "O" if turno else "X"
 
         for f in tablero:
-            # Valido si alguien gano horizontalmente
-            if marca_jugador not in f and "-" not in f:
-                fin = True
-            
             print(f)
 
-        for m in marcas_ganadoras:
-            if sorted(marcas_O) == sorted(m) or sorted(marcas_X) == sorted(m):
-                fin = True
+        fin = aux_tateti(marcas_ganadoras=marcas_ganadoras, marcas_O=marcas_O, marcas_X=marcas_X)
 
         if fin:
-            print(f"Juego terminado. Se realizo una linea de {marca_jugador_opuesto}/s")
             return
 
         valor_encontrado = 0
@@ -318,13 +331,69 @@ def tateti():
 
     for f in tablero:
         print(f)
-    print("¡Empate!\n")
 
-tateti()
+    fin = aux_tateti(marcas_ganadoras=marcas_ganadoras, marcas_O=marcas_O, marcas_X=marcas_X)
 
-        
+    if not fin:
+        print("¡Empate!\n")
 
-        
+# tateti()
+
+# 10)​Una tienda registra las ventas de 4 productos durante 7 días, en una matriz de 4x7.
+# ●​ Mostrar el total vendido por cada producto.
+# ●​ Mostrar el día con mayores ventas totales.
+# ●​ Indicar cuál fue el producto más vendido en la semana.
+
+def tienda():
+    matriz_productos = [
+        #Arroz
+        [5, 6, 7, 8, 9, 4, 2],
+        #Fideos
+        [10, 5, 5, 5, 7, 7, 9],
+        #Leche
+        [2, 2, 3, 3, 4, 4, 7],
+        #Huevos
+        [1, 1, 2, 1, 5, 6, 5]
+    ]
+
+    productos = ["Arroz", "Fideos", "Leche", "Huevos"]
+    dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
+
+    producto_mas_vendido = None 
+
+    for i, producto in enumerate(matriz_productos):
+        total_producto = 0 
+
+        for dia in producto:
+            total_producto += dia 
+
+        if producto_mas_vendido is None:
+            producto_mas_vendido = [i, total_producto]
+        else:
+            if total_producto > producto_mas_vendido[1]:
+                producto_mas_vendido = [i, total_producto]
+
+        print(f"Total de ventas en la semana para {productos[i]}: {total_producto}\n")     
+
+    ventas_dias = []
+
+    for j in range(7):
+        total_dia = 0
+
+        for p in matriz_productos:
+            total_dia += p[j]
+
+        ventas_dias.append(total_dia)
+
+    maxima_venta = max(ventas_dias)
+
+    dia_con_mayor_venta = ventas_dias.index(maxima_venta)
+
+    print(f"Dia con mayores ventas: {dias[dia_con_mayor_venta]}")
+
+    print(f"Producto mas vendido: {productos[producto_mas_vendido[0]]} con {producto_mas_vendido[1]} unidades vendidas")  
+
+# tienda() 
         
 
 
